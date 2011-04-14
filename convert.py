@@ -3,6 +3,10 @@ import sys
 import re
 import datetime
 
+# Define a MalformedLine exception
+class MalformedLine:
+    pass # don't actually need to do anything
+
 # Some helper methods
 def make_header(title):
     # Get info needed for the date lol
@@ -29,6 +33,46 @@ def make_header(title):
         </identifier>\n\
     </identifiers>\n\
     <entries>\n'
+
+# Give it a line, will return the term and definition (tuple)
+# If it can't, it will raise a MalformedLine exception
+def format_line(line):
+    """
+    SUPPORTED FORMATS: (whitespace is not significant)
+    *'''term''': definition (' or '' instead of ''' also possible)
+    *'''term''' definition (same as above)
+    ; term : definition
+    *term: definition
+    """
+    # Check if it's in this format: *[''']term[''']: definition
+    # Note this means the first : is significant
+    # But after the first : there can be others, too
+    if re.match("^\*[^\*:]+:", line):
+        # The term is between * and :
+        separator_index = line.find(':')
+        term = line[1:separator_index]
+        # Strip it of any single quotes (also whitespace, first)
+        # Could be problematic think of workarounds for this later
+        term = term.strip().strip("'")
+        
+        # Now get the definition - after separator to end of string
+        definition = line[separator_index+1:].strip()
+    elif re.match("^;[^;:]+:", line):
+        # If it's in the format ; term : definition
+        separator_index = line.find(':')
+        term = line[1:separator_index]
+        # Maybe put this code below so I don't have to repeat it
+        # Later.
+        term = term.strip().strip("'")
+        definition = line[separator_index+1:].strip()
+    else:
+        # Not in any of the supported formats ... raise an exception
+        # Might be a good idea to separate the formats later
+        # Make them into a list or something
+        # To make it easier to expand etc
+        raise MalformedLine
+
+    return term, definition
 
 # Handle the command line arguments
 # Give it an input file and an output file
@@ -70,17 +114,50 @@ else:
     need_first_line = True # As the first line is not the title
 
 print make_header(title)
+
+# Now we try to figure out which format it is ...
+# Note that the format can differ between things in the file
+# It would make sense if it had to be the same
+# But honestly it's easier to code it this way
+
 # For keeping track of which line we're on. Only needed for i = 0
 i = 0
+bad_lines = []
+
 for line in lines:
+    # Strip it of whitespace characters
+    line = line.strip()
     if i == 0 and not need_first_line:
         # ignore the first line
         pass
-    else:
+    elif len(line) > 0:
         print line
+        print len(line)
+        try:
+            entry = format_line(line) 
+            print 'Term: ' + entry[0]
+            print 'Definition: ' + entry[1]
+        except MalformedLine:
+            # Add this line number to the list of bad lines
+            # Starts indexing from 0 of course
+            bad_lines.append(i)
+    else:
+        # Blank lines, ignore
+        pass
     i = i + 1
 
-# Now try to figure out which format the wikicode is in
+print "Conversion complete!"
+# If we have any bad lines, display an error message
+# But try to convert the rest of the file first
+if len(bad_lines) > 0:
+    print "However, there were %d lines that were not in a supported format: lines " % len(bad_lines),
+    line_num = 1
+    for bad_line in bad_lines:
+        print bad_line + 1,
+        # Do we need a comma?
+        if line_num < len(bad_lines):
+            print ',',
+        line_num = line_num + 1
 
 # Don't forget to close the file
 input_file.close()
