@@ -8,7 +8,48 @@ What's a good snazzy name for this? Anyways, this is (will be) a Python script f
 Usage
 =====
 
-Instructions on how to use it ... will be put up after the actual program is done
+You can either run it through
+
+    ./convert.py inputfile outputfile
+
+where convert.py has been set as executable, through `chmod +x convert.py`, or through
+
+    python convert.py inputfile outputfile
+
+if you don't feel like that doing that for some reason.
+
+### inputfile ###
+
+Has to be a text file (extensionless or with an extension, either is fine) and the contents have to be in wikicode format. The first line of the file should be the title, and should be in this format:
+
+    =The title goes here=
+
+The number of `=`'s is variable. Whitespace outside the `=`'s will be stripped.
+
+If there is no title line (or something that the parser recognises as a title), it will prompt you to enter a title. If you enter nothing, the name of the output file will be used.
+
+The format of the entries must be in one (or more) of several supported formats - see the Supported formats section for more.
+
+### outputfile ###
+
+If this filename does not have a .kvtml extension, it will automatically be given one.
+
+Supported formats
+=================
+
+Here are the formats of the entries that are supported. Note that you can have multiple formats in one document (why would you, though?) because it was easier to code that way.
+
+    *'''Term''': definition
+
+    *'''Term''' definition (NOT CURRENTLY WORKING LOL)
+
+    *Term: definition
+
+    ; Term : definition
+
+Note that whitespace and the number of quotation marks doesn't matter (except in the second case). Anywhere between 1 and 3 quotation marks is fine for the first format, and any number of quotation marks is fine for the third and fourth formats. Whitespace is also insignificant - whitespace on the edges will be stripped.
+
+There may be more formats later, depending on how useful they are.
 
 Examples
 ========
@@ -18,15 +59,8 @@ There will be sample wikicode provided as well as the expected output for the sa
 To do
 =====
 *   Needs snazzy name lol
-*   Convert from Java to Python rofl
-*   Ability to adapt to different formats
-*   Examples:
-
-       *'''Blah blah''': blah blah blah
-       *'''Blah blah''' blah blah blah
-       *Blah blah: blah blah blah
-    
-    Okay I know that isn't exactly a huge variety of formats but whatever can't think of any others right now
+*   More formats
+*   Examples - convert samples
 
 About Open Courses
 ==================
