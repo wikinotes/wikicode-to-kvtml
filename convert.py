@@ -65,7 +65,7 @@ def format_line(line):
         # Later.
         term = term.strip().strip("'")
         definition = line[separator_index+1:].strip()
-    elif re.match("^*'{1,3}[^']+'{1,3}"m line):
+    elif re.match("^*'{1,3}[^']+'{1,3}", line):
         # Format *'''term''' definition, 1-3 quotation marks accepted
         # Separator is the last quotation mark in the second group
         # This is kind of tricky ... split it into (presumably) 3

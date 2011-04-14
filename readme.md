@@ -61,6 +61,7 @@ To do
 *   Needs snazzy name lol
 *   More formats
 *   Examples - convert samples
+*   Encode special characters? e.g. < > & etc
 
 About Open Courses
 ==================
