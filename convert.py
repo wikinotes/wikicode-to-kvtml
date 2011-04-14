@@ -65,6 +65,16 @@ def format_line(line):
         # Later.
         term = term.strip().strip("'")
         definition = line[separator_index+1:].strip()
+    elif re.match("^*'{1,3}[^']+'{1,3}"m line):
+        # Format *'''term''' definition, 1-3 quotation marks accepted
+        # Separator is the last quotation mark in the second group
+        # This is kind of tricky ... split it into (presumably) 3
+        # The second thing in the list returned = term
+        # THIS METHOD MEANS YOU CAN'T USE SINGLE QUOTES IN THE TERM
+        # SO DON'T USE IT IF YOU HAVE THEM OKAY?
+        # This is actually incredibly buggy not sure why i have it
+        # I give up, maybe later
+        raise MalformedLine
     else:
         # Not in any of the supported formats ... raise an exception
         # Might be a good idea to separate the formats later
