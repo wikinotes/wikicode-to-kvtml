@@ -33,5 +33,29 @@
                 <text>line</text>
             </translation>
         </entry>
+        <entry id="4">
+            <translation id="0">
+                <text>term</text>
+            </translation>
+            <translation id="1">
+                <text>definition</text>
+            </translation>
+        </entry>
+        <entry id="5">
+            <translation id="0">
+                <text>another term</text>
+            </translation>
+            <translation id="1">
+                <text>definition</text>
+            </translation>
+        </entry>
+        <entry id="6">
+            <translation id="0">
+                <text>term</text>
+            </translation>
+            <translation id="1">
+                <text>last definition</text>
+            </translation>
+        </entry>
     </entries>
 </kvtml>

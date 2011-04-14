@@ -114,6 +114,9 @@ else:
     need_first_line = True # As the first line is not the title
 
 # Open the output file and first print the header
+# If the output file does not have a .kvtml extension, give it one
+if not output_filename.endswith('.kvtml'):
+    output_filename = output_filename + '.kvtml'
 try:
     output_file = open(output_filename, 'w')
 except IOError:
@@ -167,8 +170,6 @@ output_file.write('\
 input_file.close()
 output_file.close()
 
-
-
 print "Proccesing complete!"
 
 # If we have any bad lines, display an error message
@@ -181,4 +182,3 @@ if len(bad_lines) > 0:
         # Do we need a comma?
         if line_num < len(bad_lines):
             print ',',
-        line_num = line_num + 1
