@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE ktvml PUBLIC "kvtml2.dtd" "http://edu.kde.org/kvtml/kvtml2.dtd">
+    <kvtml version="2.0">
+    <information>
+        <generator>wikicode-to-kvtml-convertor (NEEDS A NAME)</generator>
+        <title>This is a title lol</title>
+        <date>2011-04-14</date>
+    </information>
+    <identifiers>
+        <identifier id="0">
+            <name>Term</name>
+            <locale>en</locale>
+        </identifier>
+        <identifier id="1">
+            <name>Definition</name>
+            <locale>en</locale>
+        </identifier>
+    </identifiers>
+    <entries>
+        <entry id="2">
+            <translation id="0">
+                <text>first</text>
+            </translation>
+            <translation id="1">
+                <text>line</text>
+            </translation>
+        </entry>
+        <entry id="3">
+            <translation id="0">
+                <text>second</text>
+            </translation>
+            <translation id="1">
+                <text>line</text>
+            </translation>
+        </entry>
+    </entries>
+</kvtml>

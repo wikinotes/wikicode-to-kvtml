@@ -27,7 +27,7 @@ def make_header(title):
             <name>Term</name>\n\
             <locale>en</locale>\n\
         </identifier>\n\
-        <identifier id=1">\n\
+        <identifier id="1">\n\
             <name>Definition</name>\n\
             <locale>en</locale>\n\
         </identifier>\n\
@@ -113,7 +113,13 @@ else:
         title = 'Untitled'
     need_first_line = True # As the first line is not the title
 
-print make_header(title)
+# Open the output file and first print the header
+try:
+    output_file = open(output_filename, 'w')
+except IOError:
+    sys.exit("The output file could not be opened for writing!")
+
+output_file.write(make_header(title))
 
 # Now we try to figure out which format it is ...
 # Note that the format can differ between things in the file
@@ -131,12 +137,18 @@ for line in lines:
         # ignore the first line
         pass
     elif len(line) > 0:
-        print line
-        print len(line)
         try:
             entry = format_line(line) 
-            print 'Term: ' + entry[0]
-            print 'Definition: ' + entry[1]
+            entry_str = '\
+        <entry id="' + str(i) + '">\n\
+            <translation id="0">\n\
+                <text>%s</text>\n\
+            </translation>\n\
+            <translation id="1">\n\
+                <text>%s</text>\n\
+            </translation>\n\
+        </entry>\n' % (entry[0], entry[1])
+            output_file.write(entry_str)
         except MalformedLine:
             # Add this line number to the list of bad lines
             # Starts indexing from 0 of course
@@ -146,7 +158,19 @@ for line in lines:
         pass
     i = i + 1
 
-print "Conversion complete!"
+# Now write the footer to the output file
+output_file.write('\
+    </entries>\n\
+</kvtml>')
+
+# Done with both files ... 
+input_file.close()
+output_file.close()
+
+
+
+print "Proccesing complete!"
+
 # If we have any bad lines, display an error message
 # But try to convert the rest of the file first
 if len(bad_lines) > 0:
@@ -158,6 +182,3 @@ if len(bad_lines) > 0:
         if line_num < len(bad_lines):
             print ',',
         line_num = line_num + 1
-
-# Don't forget to close the file
-input_file.close()
